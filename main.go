@@ -20,7 +20,16 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	user := User{"Cleitinho", "43 96718583", "cleito@h.com"}
 
-	json.NewEncoder(w).Encode(user)
+	userJSON, err := json.Marshal(user)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Teste"))
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	w.Write(userJSON)
 	/* log.Print(w, "Teste") */
 }
 
